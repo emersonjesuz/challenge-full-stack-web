@@ -1,5 +1,5 @@
 <script setup lang="ts"></script>
-
-<template></template>
-
-<style scoped></style>
+<template>
+  <router-view></router-view>
+  <!-- Este componente exibirá a rota correspondente -->
+</template>

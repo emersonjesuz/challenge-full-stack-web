@@ -1,8 +1,8 @@
-import "./assets/main.css";
+import vuetifyConfig from "@/config/vuetify";
 import { createApp } from "vue";
 import App from "./App.vue";
+import "./assets/main.css";
 import router from "./router";
-import vuetifyConfig from "@/config/vuetify";
 
 const app = createApp(App);
 
