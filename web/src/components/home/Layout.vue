@@ -1,8 +1,23 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { useShow } from "@/piniaStore/show";
+import { useStudentData } from "@/piniaStore/studentData";
+
+const useStudent = useStudentData();
+const show = useShow();
+</script>
 <template>
   <div class="home-main-layout">
     <div class="home-main-layout-title">
-      <h2>Consulte seus alunos</h2>
+      <!-- title of the page -->
+      <h2>
+        {{
+          !show.activateStudentForm
+            ? "Consulta de alunos"
+            : useStudent.getStudent.registrationNumber
+            ? "Alterar aluno"
+            : "Cadastro de aluno"
+        }}
+      </h2>
     </div>
     <div class="home-main-layout-box">
       <slot></slot>

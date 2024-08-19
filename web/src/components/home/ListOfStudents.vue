@@ -1,8 +1,16 @@
 <script setup lang="ts">
-import { reactive, watch } from "vue";
-import ChangeArrowIcon from "../ChangeArrowIcon.vue";
+import { useShow } from "@/piniaStore/show";
+import { useStudentData } from "@/piniaStore/studentData";
 import { ref } from "vue";
+import ChangeArrowIcon from "../ChangeArrowIcon.vue";
+import ModalDeleteStudent from "./ModalDeleteStudent.vue";
 
+interface Student {
+  name: string;
+  registrationNumber: string;
+  cpf: string;
+  email: string;
+}
 interface FilterBy {
   by: "name" | "cpf" | "registrationNumber";
   ascendingOrder: boolean;
@@ -25,88 +33,9 @@ const filterBy = ref<FilterBy[]>([
     name: "CPF",
   },
 ]);
-const desserts = reactive([
-  {
-    registrationNumber: "2024001",
-    name: "João Silva",
-    cpf: "123.456.789-00",
-  },
-  {
-    registrationNumber: "2024002",
-    name: "Maria Oliveira",
-    cpf: "987.654.321-00",
-  },
-  {
-    registrationNumber: "2024003",
-    name: "Carlos Souza",
-    cpf: "456.789.123-00",
-  },
-  {
-    registrationNumber: "2024004",
-    name: "Ana Paula",
-    cpf: "321.654.987-00",
-  },
-  {
-    registrationNumber: "2024005",
-    name: "Bruno Mendes",
-    cpf: "789.123.456-00",
-  },
-  {
-    registrationNumber: "2024006",
-    name: "Fernanda Lima",
-    cpf: "654.321.987-00",
-  },
-  {
-    registrationNumber: "2024007",
-    name: "Rafael Costa",
-    cpf: "987.321.654-00",
-  },
-  {
-    registrationNumber: "2024008",
-    name: "Gabriela Pereira",
-    cpf: "123.789.456-00",
-  },
-  {
-    registrationNumber: "2024009",
-    name: "Lucas Ferreira",
-    cpf: "654.987.321-00",
-  },
-  {
-    registrationNumber: "2024010",
-    name: "Juliana Santos",
-    cpf: "321.987.654-00",
-  },
-  {
-    registrationNumber: "2024011",
-    name: "Mateus Almeida",
-    cpf: "789.654.123-00",
-  },
-  {
-    registrationNumber: "2024012",
-    name: "Amanda Rocha",
-    cpf: "456.321.789-00",
-  },
-  {
-    registrationNumber: "2024013",
-    name: "Eduardo Matos",
-    cpf: "123.654.987-00",
-  },
-  {
-    registrationNumber: "2024014",
-    name: "Bianca dsdsds sdsd Ribeiro",
-    cpf: "987.123.654-00",
-  },
-  {
-    registrationNumber: "2024015",
-    name: "Rodrigo Barros",
-    cpf: "321.789.123-00",
-  },
-  {
-    registrationNumber: "2024016",
-    name: "Larissa Carvalho",
-    cpf: "654.123.987-00",
-  },
-]);
+
+const useStudent = useStudentData();
+const show = useShow();
 
 // will handle the table filter
 function manipulateTableFilter(by: "registrationNumber" | "name" | "cpf") {
@@ -116,6 +45,12 @@ function manipulateTableFilter(by: "registrationNumber" | "name" | "cpf") {
     }
     return item;
   });
+}
+
+// display form to edit student
+function showFormEditStudent(student: Student) {
+  useStudent.findStudent(student);
+  show.toggleActivateStudentForm(true);
 }
 </script>
 <template>
@@ -135,28 +70,30 @@ function manipulateTableFilter(by: "registrationNumber" | "name" | "cpf") {
         </tr>
       </thead>
       <tbody>
-        <tr v-if="desserts.length" v-for="item in desserts" :key="item.name">
-          <td>{{ item.registrationNumber }}</td>
-          <td>{{ item.name }}</td>
-          <td>{{ item.cpf }}</td>
+        <tr
+          v-if="useStudent.listStudents.length"
+          v-for="student in useStudent.listStudents"
+          :key="student.registrationNumber"
+        >
+          <td>{{ student.registrationNumber }}</td>
+          <td>{{ student.name }}</td>
+          <td>{{ student.cpf }}</td>
           <!-- edit and delete buttons-->
           <td class="home-main-list-students-table-buttons">
+            <!-- button edit -->
             <v-btn
               variant="text"
               type="button"
               id="list-students-table-first-button"
+              @click="showFormEditStudent(student)"
             >
               Editar
             </v-btn>
-            <v-btn
-              variant="text"
-              type="button"
-              id="list-students-table-second-button"
-            >
-              Excluir
-            </v-btn>
+            <!-- button that will display the modal -->
+            <ModalDeleteStudent :student="student" />
           </td>
         </tr>
+        <!-- will be displayed if the list is empty -->
         <tr v-else>
           <td colspan="4">Nenhum registro encontrado</td>
         </tr>
@@ -171,7 +108,7 @@ function manipulateTableFilter(by: "registrationNumber" | "name" | "cpf") {
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: calc(100% - 17.22rem);
+  height: calc(100% - 16.22rem);
   border: 1px solid black;
   border-radius: 0;
 }
@@ -197,9 +134,5 @@ function manipulateTableFilter(by: "registrationNumber" | "name" | "cpf") {
 #list-students-table-first-button {
   background-color: #ffffff;
   color: #00a0a6;
-}
-#list-students-table-second-button {
-  background-color: #ffffff;
-  color: #ff203b;
 }
 </style>
