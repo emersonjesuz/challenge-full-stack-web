@@ -136,13 +136,13 @@ export const useStudentData = defineStore("student", {
     },
 
     // edit student
-    editStudent(student: Student) {
-      this.listStudents.map(({ name, email }) => {
-        if (student.registrationNumber === student.registrationNumber) {
+    editStudent(newStudent: Student) {
+      this.listStudents = this.listStudents.map((student) => {
+        if (student.registrationNumber === newStudent.registrationNumber) {
           return {
             ...student,
-            name,
-            email,
+            name: newStudent.name.trim(),
+            email: newStudent.email.trim(),
           };
         }
         return student;
