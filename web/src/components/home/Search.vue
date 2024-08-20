@@ -1,14 +1,12 @@
 <template>
   <div class="home-main-search">
     <v-form class="home-main-search-form">
-      <!-- <v-container class="pa-0"> -->
       <v-text-field variant="outlined" class="home-main-search-input">
         <template v-slot:label>
           <span> Digite sua busca </span>
         </template>
         <v-btn type="button" class="home-main-search-button"> Pesquisar </v-btn>
       </v-text-field>
-      <!-- </v-container> -->
     </v-form>
   </div>
 </template>
