@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import notifyError from "@/components/helpers/notifyError";
 import Snackbar from "@/components/Snackbar.vue";
 import { apiBack } from "@/config/axios";
-import { useShow } from "@/piniaStore/show";
-import { ref, reactive, onMounted } from "vue";
+import notifyError from "@/helpers/notifyError";
+import { onMounted, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
