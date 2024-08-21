@@ -26,7 +26,7 @@ export const useShow = defineStore("show", {
     },
 
     //will open or close the snackbar
-    toggleShowSnackbar(show: ShowSnackBar) {
+    displaySnackbar(show: ShowSnackBar) {
       this.showSnackbar = show;
     },
   },
