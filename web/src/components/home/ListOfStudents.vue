@@ -16,6 +16,7 @@ interface FilterBy {
   ascendingOrder: boolean;
   name: string;
 }
+
 const filterBy = ref<FilterBy[]>([
   {
     by: "registrationNumber",
@@ -42,6 +43,11 @@ function manipulateTableFilter(by: "registrationNumber" | "name" | "cpf") {
   filterBy.value = filterBy.value.map((item) => {
     if (item.by === by) {
       item.ascendingOrder = !item.ascendingOrder;
+      useStudent.orderList({
+        orderBy: { by, type: !item.ascendingOrder ? "ASC" : "DESC" },
+      });
+      // clear search
+      useStudent.searchStudentsList("");
     }
     return item;
   });
@@ -109,7 +115,7 @@ function showFormEditStudent(student: Student) {
   align-items: center;
   width: 100%;
   height: calc(100% - 16.22rem);
-  border: 1px solid black;
+  border-top: 1px solid black;
   border-radius: 0;
 }
 .home-main-list-students-table {
