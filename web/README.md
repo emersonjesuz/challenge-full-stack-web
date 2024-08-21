@@ -1,33 +1,48 @@
-# web
+# Documentação web
 
-This template should help get you started developing with Vue 3 in Vite.
+### Inicializando o projeto
 
-## Recommended IDE Setup
+Para inicializar o projeto, execute os seguintes comandos no terminal na pasta raiz:
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- `npm install`: Baixe as dependências do projeto.
+- `npm run build`: Compile o projeto.
+- `npm start`: Inicialize o servidor web.
 
-## Type Support for `.vue` Imports in TS
+### Interfaces
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+##### Endereço do servidor: http://localhost:5173/
 
-## Customize configuration
+![alt text](/web/public/signIn.png)
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+- **Email:** admin@email.com
+- **Senha:** admin123
 
-## Project Setup
+---
 
-```sh
-npm install
-```
+##### Endereço do servidor: http://localhost:5173/home
 
-### Compile and Hot-Reload for Development
+![alt text](/web/public/home.png)
 
-```sh
-npm run dev
-```
+- No menu esquerdo, um botão `Alunos` que abre a tela com:
+  - Uma caixa de texto para buscar alunos pelo nome, cpf ou registro acadêmico.
+  - Um botão `Cadastrar Aluno` para abrir a tela de cadastro.
+  - Uma lista de alunos com os seguintes campos:
+    - `Registro Acadêmico`
+    - `Nome`
+    - `Email`
+    - `CPF`
+  - Botões `Editar` e `Excluir` para cada aluno na lista, que abrem a tela para editar ou excluir o aluno respectivamente.
+  - A lista é ordenada por `Registro Acadêmico`, `Nome` ou `CPF` clicando nos cabeçalhos das colunas.
+    ![alt text](image.png)
+  - Caso clique no botão `Editar` ou `Cadastrar Aluno` abrirá um formulário com os seguintes campos:
+    - `Nome`
+    - `Email`
+    - `Registro Acadêmico`
+    - `CPF`
+    - Caso seja edição, os campos estarão preenchidos com os dados do aluno.
+    - Caso seja cadastro, os campos estarão vazios.
 
-### Type-Check, Compile and Minify for Production
+![alt text](/web//public/delete.png)
 
-```sh
-npm run build
-```
+- Caso clique no botão `Excluir` abrirá um modal com a seguinte mensagem:
+  - `Você tem certeza que deseja excluir este aluno? Esta ação não pode ser desfeita`
