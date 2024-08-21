@@ -34,11 +34,7 @@ export const getUsersRepository = async ({
         email,
       ]);
     }
-    console.log("email", email);
-    console.log("id", id);
-    console.log("field", field);
 
-    console.log("response", response!.rows);
     const data = response!.rows[0];
     return {
       id: data.id,

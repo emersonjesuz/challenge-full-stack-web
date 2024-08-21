@@ -45,7 +45,7 @@ export const getStudentsRepository = async (registrationNumber: number) => {
       "SELECT * FROM student WHERE registration_number = $1 AND is_delete = false",
       [registrationNumber]
     );
-    console.log(response.rows);
+
     if (!response.rows.length) {
       return {};
     }
@@ -67,8 +67,6 @@ export const getStudentsRepository = async (registrationNumber: number) => {
 export const allStudentsRepository = async ({ by, type }: SortStundentBy) => {
   let response = null;
   try {
-    console.log(by, type);
-
     if (by === "name") {
       response = await poolDb.query(`
         SELECT name, email, cpf, registration_number
