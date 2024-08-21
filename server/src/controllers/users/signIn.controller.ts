@@ -35,7 +35,9 @@ export const signInController = async (req: Request, res: Response) => {
     }
 
     // generate token
-    const token = jwt.sign({ id: isUser.id }, process.env.SECRET_KEY!);
+    const token = jwt.sign({ id: isUser.id }, process.env.SECRET_KEY!, {
+      expiresIn: "1d",
+    });
 
     return res.status(200).json({
       token,
