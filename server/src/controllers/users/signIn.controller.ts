@@ -3,6 +3,7 @@ import z from "zod";
 import { getUsersRepository } from "../../repository/users.repository";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import { isErroSchema } from "../../helpers/isErroSchema";
 
 export const signInController = async (req: Request, res: Response) => {
   try {
@@ -20,7 +21,7 @@ export const signInController = async (req: Request, res: Response) => {
       email: data.email,
     });
     // verify if user exists
-    if (!isUser) {
+    if (!Object.keys(isUser).length) {
       return res.status(404).json({ message: "Usuario nao encontrado" });
     }
 
@@ -40,6 +41,6 @@ export const signInController = async (req: Request, res: Response) => {
       token,
     });
   } catch (error) {
-    return res.status(400).json(error);
+    return res.status(400).json(isErroSchema(error));
   }
 };
