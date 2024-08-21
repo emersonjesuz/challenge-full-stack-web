@@ -10,6 +10,11 @@ interface Student {
 interface State {
   getStudent: Student;
   listStudents: Student[];
+  searchStudents: string;
+  orderBy: {
+    by: "name" | "registrationNumber" | "cpf";
+    type: "ASC" | "DESC";
+  };
 }
 
 export const useStudentData = defineStore("student", {
@@ -118,6 +123,11 @@ export const useStudentData = defineStore("student", {
         email: "larissa.carvalho@example.com",
       },
     ],
+    orderBy: {
+      by: "registrationNumber",
+      type: "ASC",
+    },
+    searchStudents: "",
   }),
   actions: {
     // add student to list
@@ -155,6 +165,16 @@ export const useStudentData = defineStore("student", {
         ({ registrationNumber }) =>
           registrationNumber !== student.registrationNumber
       );
+    },
+
+    // search student
+    searchStudentsList(search: string) {
+      this.searchStudents = search;
+    },
+
+    // order list
+    orderList({ orderBy }: Pick<State, "orderBy">) {
+      this.orderBy = orderBy;
     },
   },
 });
