@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { apiBack } from "@/config/axios";
+import notifyError from "@/helpers/notifyError";
+import { useShow } from "@/piniaStore/show";
 import { useStudentData } from "@/piniaStore/studentData";
 import { ref } from "vue";
 interface Student {
@@ -13,11 +16,22 @@ interface Props {
 const dialog = ref(false);
 const props = defineProps<Props>();
 const useStudent = useStudentData();
+const show = useShow();
 
 // delete student from list
 async function deleteStudent() {
-  useStudent.deleteStudent(props.student);
-  dialog.value = false;
+  try {
+    await apiBack.delete(`/students/${props.student.registrationNumber}`);
+    useStudent.deleteStudent(props.student);
+    dialog.value = false;
+    show.displaySnackbar({
+      active: true,
+      text: "Aluno excluído com sucesso!",
+      type: "Success",
+    });
+  } catch (error) {
+    notifyError(error);
+  }
 }
 </script>
 
