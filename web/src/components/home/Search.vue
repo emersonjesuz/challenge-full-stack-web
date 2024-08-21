@@ -1,11 +1,50 @@
+<script lang="ts" setup>
+import { apiBack } from "@/config/axios";
+import notifyError from "@/helpers/notifyError";
+import { useStudentData } from "@/piniaStore/studentData";
+import { ref, watchEffect } from "vue";
+
+const useStudent = useStudentData();
+const search = ref("");
+
+function onSearch() {
+  useStudent.searchStudentsList(search.value);
+  listStudents();
+}
+
+async function listStudents() {
+  try {
+    const { data } = await apiBack.get(
+      `/students?by=${useStudent.orderBy.by}&type=${useStudent.orderBy.type}&search=${useStudent.searchStudents}`
+    );
+
+    useStudent.listStudents = data;
+  } catch (error) {
+    notifyError(error);
+  }
+}
+
+watchEffect(() => {
+  // using to cause reactivity
+  useStudent.orderBy.by;
+  listStudents();
+});
+</script>
+
 <template>
   <div class="home-main-search">
     <v-form class="home-main-search-form">
-      <v-text-field variant="outlined" class="home-main-search-input">
+      <v-text-field
+        variant="outlined"
+        class="home-main-search-input"
+        v-model="search"
+      >
         <template v-slot:label>
           <span> Digite sua busca </span>
         </template>
-        <v-btn type="button" class="home-main-search-button"> Pesquisar </v-btn>
+        <v-btn type="button" @click="onSearch" class="home-main-search-button">
+          Pesquisar
+        </v-btn>
       </v-text-field>
     </v-form>
   </div>
