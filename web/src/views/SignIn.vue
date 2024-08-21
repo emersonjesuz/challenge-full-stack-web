@@ -1,6 +1,12 @@
 <script setup lang="ts">
-import { ref, reactive } from "vue";
+import notifyError from "@/components/helpers/notifyError";
+import Snackbar from "@/components/Snackbar.vue";
+import { apiBack } from "@/config/axios";
+import { useShow } from "@/piniaStore/show";
+import { ref, reactive, onMounted } from "vue";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const showPassword = ref(false);
 const state = reactive({
   password: "",
@@ -30,12 +36,25 @@ function validateForm() {
 
 // submitting the form
 async function onSubmit() {
-  console.log(state);
+  try {
+    const { data } = await apiBack.post("/signIn", state);
+
+    localStorage.setItem("token", data.token);
+
+    router.push({ name: "home" });
+  } catch (error) {
+    notifyError(error);
+  }
 }
+
+onMounted(() => {
+  localStorage.clear();
+});
 </script>
 
 <template>
   <div class="container-sign-in">
+    <!-- A+ logo -->
     <div class="sign-in-logo">
       <img
         src="https://maisaedu.com.br/hubfs/site-grupo-a/logo-mais-a-educacao.svg"
@@ -86,6 +105,7 @@ async function onSubmit() {
         <v-btn type="submit" class="form-button" color="#ff203b">
           Entrar
         </v-btn>
+        <Snackbar />
       </form>
     </div>
   </div>
@@ -159,7 +179,7 @@ async function onSubmit() {
   color: white;
   border: none;
   border-radius: 0.5rem;
-  font-size: 1.6rem;
+  font-size: 1rem;
 }
 .sign-in-set-error {
   color: red;
