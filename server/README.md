@@ -66,7 +66,7 @@ Cria um novo aluno
 
 caso de sucesso
 
-- `id`: number - id do aluno
+
 - `nome`: string - nome do aluno
 - `email`: string - email do aluno
 - `cpf`: string - cpf do aluno
@@ -84,7 +84,7 @@ Busca todos os alunos, ordenar ou filtrar
 
 - `by`: "name" | "cpf" | "registrationNumber" - campo pelo qual deseja fazer a ordenação
 - `type`: "ASC" | "DESC" - tipo de ordenação
-- `search`: string - fazer busca na lista de aluno por name, cpf ou registro academico
+- `search`: string - fazer busca na lista de aluno por nome, cpf ou registro academico
 
 ##### Response
 
@@ -137,7 +137,7 @@ Deleta um aluno
 
 caso de sucesso
 
-- `mensagem`: object - aluno
+- `aluno`: object - aluno
 
 caso de erro
 
