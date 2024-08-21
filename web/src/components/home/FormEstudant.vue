@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { apiBack } from "@/config/axios";
+import notifyError from "@/helpers/notifyError";
 import { useShow } from "@/piniaStore/show";
 import { useStudentData } from "@/piniaStore/studentData";
 import { onMounted, ref } from "vue";
@@ -14,25 +16,52 @@ const state = ref({
   ...initialState,
 });
 
-const showStore = useShow();
+const show = useShow();
 const useStudent = useStudentData();
 
 async function onSubmit() {
-  //  send to edit
-  if (useStudent.getStudent.registrationNumber) {
-    useStudent.editStudent(state.value);
-  } else {
-    //  send to add
-    useStudent.addStudent(state.value);
-  }
+  try {
+    //  send to edit
+    if (useStudent.getStudent.registrationNumber) {
+      await apiBack.put(
+        `/students/${useStudent.getStudent.registrationNumber}`,
+        {
+          name: state.value.name,
+          email: state.value.email,
+        }
+      );
 
-  clear();
+      useStudent.editStudent(state.value);
+      show.displaySnackbar({
+        active: true,
+        text: "Aluno editado com sucesso!",
+        type: "Success",
+      });
+    } else {
+      //  send to add
+      await apiBack.post("/students", {
+        ...state.value,
+        registrationNumber: Number(state.value.registrationNumber),
+      });
+
+      useStudent.addStudent(state.value);
+      show.displaySnackbar({
+        active: true,
+        text: "Aluno adicionado com sucesso!",
+        type: "Success",
+      });
+    }
+
+    clear();
+  } catch (error) {
+    notifyError(error);
+  }
 }
 
 // clean the form
 function clear() {
   state.value = { ...initialState };
-  showStore.toggleActivateStudentForm(false);
+  show.toggleActivateStudentForm(false);
   useStudent.findStudent({
     cpf: "",
     email: "",
