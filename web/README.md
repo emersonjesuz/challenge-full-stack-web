@@ -33,7 +33,7 @@ Para inicializar o projeto, execute os seguintes comandos no terminal na pasta r
     - `CPF`
   - Botões `Editar` e `Excluir` para cada aluno na lista, que abrem a tela para editar ou excluir o aluno respectivamente.
   - A lista é ordenada por `Registro Acadêmico`, `Nome` ou `CPF` clicando nos cabeçalhos das colunas.
-    ![alt text](image.png)
+    ![alt text](/web/public/formStudents.png)
   - Caso clique no botão `Editar` ou `Cadastrar Aluno` abrirá um formulário com os seguintes campos:
     - `Nome`
     - `Email`
