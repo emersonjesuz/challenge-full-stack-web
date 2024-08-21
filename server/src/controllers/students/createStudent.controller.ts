@@ -25,7 +25,7 @@ export const createStudentController = async (req: Request, res: Response) => {
 
     const isStudent = await getStudentsRepository(data.registrationNumber);
     // checks if the student exists
-    if (isStudent) {
+    if (Object.keys(isStudent!).length) {
       return res.status(400).json({ message: "Aluno ja existe" });
     }
 
