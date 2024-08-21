@@ -1,5 +1,7 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Snackbar from "./components/Snackbar.vue";
+</script>
 <template>
   <router-view></router-view>
-  <!-- Este componente exibirá a rota correspondente -->
+  <Snackbar />
 </template>
