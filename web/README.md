@@ -6,11 +6,11 @@ Para inicializar o projeto, execute os seguintes comandos no terminal na pasta r
 
 - `npm install`: Baixe as dependências do projeto.
 - `npm run build`: Compile o projeto.
-- `npm start`: Inicialize o servidor web.
+- `npm run preview`: Inicialize o servidor web.
 
 ### Interfaces
 
-##### Endereço do servidor: http://localhost:5173/
+##### Endereço do servidor: http://localhost:4173/
 
 ![alt text](/web/public/signIn.png)
 
@@ -19,7 +19,7 @@ Para inicializar o projeto, execute os seguintes comandos no terminal na pasta r
 
 ---
 
-##### Endereço do servidor: http://localhost:5173/home
+##### Endereço do servidor: http://localhost:4173/home
 
 ![alt text](/web/public/home.png)
 
