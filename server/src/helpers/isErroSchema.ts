@@ -12,5 +12,3 @@ export const isErroSchema = (error: any) => {
     };
   }
 };
-
-// TODO: retorna apenas o primeiro erro da lista
