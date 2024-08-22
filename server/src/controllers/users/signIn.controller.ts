@@ -31,7 +31,7 @@ export const signInController = async (req: Request, res: Response) => {
     );
     //  verify if password is correct
     if (!comparePassword) {
-      return res.status(404).json({ message: "Email ou senha invalida" });
+      return res.status(400).json({ message: "Email ou senha invalida" });
     }
 
     // generate token
