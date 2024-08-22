@@ -11,7 +11,6 @@ create table student (
     email varchar(255) not null,
     name varchar(255) not null,
     cpf varchar(255) not null unique,
-    is_delete boolean default false,
     primary key(registration_number)
 );
 

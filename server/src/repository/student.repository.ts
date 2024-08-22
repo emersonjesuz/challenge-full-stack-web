@@ -39,12 +39,25 @@ export const createStudentRepository = async (student: Student) => {
 };
 
 // get student from database
-export const getStudentsRepository = async (registrationNumber: number) => {
+export const getStudentsRepository = async (
+  registrationNumber?: number,
+  cpf?: string
+) => {
   try {
-    const response = await poolDb.query(
-      "SELECT * FROM student WHERE registration_number = $1 AND is_delete = false",
-      [registrationNumber]
-    );
+    if (!cpf && !registrationNumber) {
+      return {};
+    }
+    let response: { rows: any[] } = { rows: [] };
+    if (registrationNumber) {
+      response = await poolDb.query(
+        "SELECT * FROM student WHERE registration_number = $1 ",
+        [registrationNumber]
+      );
+    } else {
+      response = await poolDb.query("SELECT * FROM student WHERE cpf = $1 ", [
+        cpf,
+      ]);
+    }
 
     if (!response.rows.length) {
       return {};
@@ -70,22 +83,19 @@ export const allStudentsRepository = async ({ by, type }: SortStundentBy) => {
     if (by === "name") {
       response = await poolDb.query(`
         SELECT name, email, cpf, registration_number
-        FROM student 
-        WHERE is_delete = false 
+        FROM student  
         ORDER BY name ${type}
       `);
     } else if (by === "cpf") {
       response = await poolDb.query(`
         SELECT name, email, cpf,  registration_number 
-        FROM student 
-        WHERE is_delete = false 
+        FROM student  
         ORDER BY cpf ${type}
       `);
     } else {
       response = await poolDb.query(`
         SELECT name, email, cpf, registration_number 
-        FROM student 
-        WHERE is_delete = false 
+        FROM student  
         ORDER BY registration_number ${type}
       `);
     }
@@ -113,8 +123,7 @@ export const searchStudentRepository = async (search: string) => {
       `
       SELECT name, email, cpf, registration_number
       FROM student 
-      WHERE is_delete = false 
-      AND (name ILIKE $1 OR cpf ILIKE $1 OR CAST(registration_number AS TEXT) ILIKE $1)
+      WHERE name ILIKE $1 OR cpf ILIKE $1 OR CAST(registration_number AS TEXT) ILIKE $1
       ORDER BY name ASC;
     `,
       [`%${search}%`]
@@ -143,7 +152,7 @@ export const editStudentRepository = async (
   try {
     const { name, email } = student;
     const response = await poolDb.query(
-      "UPDATE student SET name = $1, email = $2 WHERE registration_number = $3 AND is_delete = false RETURNING *",
+      "UPDATE student SET name = $1, email = $2 WHERE registration_number = $3  RETURNING *",
       [name, email, registrationNumber]
     );
     const data = response.rows[0];
@@ -161,7 +170,7 @@ export const editStudentRepository = async (
 export const deleteStudentRepository = async (registrationNumber: number) => {
   try {
     const response = await poolDb.query(
-      "UPDATE student SET is_delete = true WHERE registration_number = $1 AND is_delete = false RETURNING *",
+      "DELETE FROM student WHERE registration_number = $1 RETURNING *",
       [registrationNumber]
     );
     const data = response.rows[0];
