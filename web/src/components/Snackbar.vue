@@ -13,16 +13,4 @@ const show = useShow();
   >
     {{ show.showSnackbar.text }}
   </v-snackbar>
-
-  <!-- <v-btn
-    @click="isSnackbarActive = true"
-    class="ma-2"
-    color="green-darken-3"
-    variant="tonal"
-    location="top right"
-  >
-    Open Snackbar
-  </v-btn> -->
 </template>
-<!-- #26A69A -->
-<!-- #F44336 -->
