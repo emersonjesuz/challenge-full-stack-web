@@ -6,9 +6,15 @@
     "strict": true,
     "esModuleInterop": true,
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": "./",
     "moduleResolution": "NodeNext",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@models/*": ["models/*"],
+      "@controllers/*": ["controllers/*"]
+    }
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "test/**/*", "jest.config.ts"],
+  "exclude": ["node_modules"]
 }
