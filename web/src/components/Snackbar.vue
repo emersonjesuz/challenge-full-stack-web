@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref } from "vue";
 import { useShow } from "@/piniaStore/show";
 
 const show = useShow();
