@@ -23,10 +23,22 @@ export const createStudentController = async (req: Request, res: Response) => {
     });
     const data = createStudentSchema.parse(req.body);
 
-    const isStudent = await getStudentsRepository(data.registrationNumber);
-    // checks if the student exists
-    if (Object.keys(isStudent!).length) {
-      return res.status(400).json({ message: "Aluno ja existe" });
+    const isStudentRegistrationNumber = await getStudentsRepository(
+      data.registrationNumber
+    );
+    // checks if the student exists for registration number
+    if (Object.keys(isStudentRegistrationNumber!).length) {
+      return res
+        .status(400)
+        .json({ message: "Já existe um aluno com este Registro" });
+    }
+
+    const isStudentCpf = await getStudentsRepository(undefined, data.cpf);
+    // checks if the student exists for cpf
+    if (Object.keys(isStudentCpf!).length) {
+      return res
+        .status(400)
+        .json({ message: "Já existe um aluno com este CPF" });
     }
 
     // create student in database
